@@ -61,7 +61,12 @@ def menu_operation() -> int:
             print(message_error)
 
 def read_number(role: str) -> str: 
-    pattern = r"^(?:\+7|8|7)?(?:9\d{9})$"
+    """
+    Читает введённый номер. Включает проверку на коррекстность.
+    """
+    #Загрузка маски номера.
+    mask = get_config()["mask_number"]["regular_expression"]
+    pattern = r"" + mask
 
     while True: 
         number = input(f"Введите номер телефона {role}. Exit для выхода:")
