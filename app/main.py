@@ -8,11 +8,8 @@ def get_md5_hash(input_string: str) -> str:
     """
     Вычисляет MD5 хеш для входной строки.
     """
-    #Кодирование строки в байты
     encoded_string: bytes = input_string.encode('utf-8')
-    # Создание объекта MD5.
     md5_hash = hashlib.md5()
-    # Обновление объекта хеша данными.
     md5_hash.update(encoded_string)
     hex_digest: str = md5_hash.hexdigest()
     return hex_digest
@@ -60,11 +57,18 @@ def menu_operation() -> int:
         else:
             print(message_error)
 
+def conversion_number(number: str) -> str:
+    if(len(number) == 10):
+        number = "+7" + number
+    elif(len(number) == 11):
+        number = "+7" + number[1:]
+
+    return number
+
 def read_number(role: str) -> str: 
     """
     Читает введённый номер. Включает проверку на коррекстность.
     """
-    #Загрузка маски номера.
     mask = get_config()["mask_number"]["regular_expression"]
     pattern = r"" + mask
 
@@ -79,25 +83,40 @@ def read_number(role: str) -> str:
             break
         else:
             print("Некорректный номер.")
+    
+    number = conversion_number(number)
 
     return number
 
-def creating_mailing():
-    """
-    Создает рассылку.
-    """
+def check_data_mail(sender_number: str, kecipient_number: str, massage: str ) -> int:
+    print(f"Телефон отправителя: {sender_number}\nТелефон получателя: {kecipient_number}\nСообщение: {massage}\nДанные корректы?(y/n)")
+    if input() != 'y':
+        return 0
+    else:
+        return 1
+
+def read_data_mail() -> str:
     sender_number = read_number("Отправителя")
     if(sender_number == "-"):
         return 
-    кecipient_number = read_number("Получателя")
-    if(кecipient_number == "-"):
+    kecipient_number = read_number("Получателя")
+    if(kecipient_number == "-"):
         return 
-
     massage = input("Введите сообщение: ")
+
+    return sender_number, kecipient_number, massage
+
+def creating_mailing() -> int:
+    """
+    Создает рассылку.
+    """
+    sender_number, kecipient_number, massage = read_data_mail()
+
+    if check_data_mail(sender_number, kecipient_number, massage) == 0:
+        return 0
 
     print("Сообщение создано.")
     
-
 if __name__ == "__main__":
     result_login: int = login_verification()
     if(result_login == 0):

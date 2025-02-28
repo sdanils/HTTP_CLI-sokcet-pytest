@@ -3,7 +3,8 @@
 title = "Configuration"
 
 [server]
-ip =  "localhost"
+Address =  "localhost"
+Host = "4010"
 
 [user]
 name = "Danil"
