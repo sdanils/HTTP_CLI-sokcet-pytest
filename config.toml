@@ -3,8 +3,11 @@
 title = "Configuration"
 
 [server]
-Address =  "localhost"
-Host = "4010"
+host =  "localhost"
+port = "4010"
+
+[requests_path]
+post = "/send_sms"
 
 [user]
 name = "Danil"

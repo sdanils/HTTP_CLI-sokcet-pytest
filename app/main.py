@@ -1,41 +1,8 @@
-import hashlib
-import tomllib
-from typing import Any
+import get_config as gc
 import sys
 import re
-
-def get_md5_hash(input_string: str) -> str:
-    """
-    Вычисляет MD5 хеш для входной строки.
-    """
-    encoded_string: bytes = input_string.encode('utf-8')
-    md5_hash = hashlib.md5()
-    md5_hash.update(encoded_string)
-    hex_digest: str = md5_hash.hexdigest()
-    return hex_digest
-
-def get_config() -> dict[str, Any]:
-    """
-    Загружает данные конфигурации программы.
-    """
-    with open("config.toml", "rb") as f:
-        config: dict[str, Any] = tomllib.load(f)
-    return config
-     
-def login_verification() -> int:
-    """
-    Проверяет пользователя при запуске.
-    """
-    config: dict[str, Any] = get_config()
-
-    password_str: str = input("Введите пароль: ")
-    hash_password: str = get_md5_hash(password_str)
-    #Проверка совпадения пароля
-    if(config["user"]["password"] != hash_password):
-        print("Нет доступа.")
-        return 0
-    else:
-        return 1
+import verification as ver
+from RequestsData.mailing_request import Mailing_request
 
 def menu_operation() -> int:
     """
@@ -69,7 +36,7 @@ def read_number(role: str) -> str:
     """
     Читает введённый номер. Включает проверку на коррекстность.
     """
-    mask = get_config()["mask_number"]["regular_expression"]
+    mask = gc.get_config()["mask_number"]["regular_expression"]
     pattern = r"" + mask
 
     while True: 
@@ -115,10 +82,17 @@ def creating_mailing() -> int:
     if check_data_mail(sender_number, kecipient_number, massage) == 0:
         return 0
 
+    if(ver.login_verification() == 0):
+        sys.exit() 
+
+    dict_data = {"sender_number":sender_number, "kecipient_number": kecipient_number, "massage":massage}
+    request = Mailing_request(dict_data)
+    request.make_request()
+    
     print("Сообщение создано.")
     
 if __name__ == "__main__":
-    result_login: int = login_verification()
+    result_login: int = ver.login_verification()
     if(result_login == 0):
         sys.exit() 
     
