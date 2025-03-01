@@ -2,7 +2,8 @@ import get_config as gc
 import sys
 import re
 import verification as ver
-from RequestsData.mailing_request import Mailing_request
+from Requests.mailing_request import Mailing_request
+from Requests.mailing_response import Mailing_response
 
 def menu_operation() -> int:
     """
@@ -66,36 +67,33 @@ def read_data_mail() -> str:
     sender_number = read_number("Отправителя")
     if(sender_number == "-"):
         return 
-    kecipient_number = read_number("Получателя")
-    if(kecipient_number == "-"):
+    recipient_number = read_number("Получателя")
+    if(recipient_number == "-"):
         return 
-    massage = input("Введите сообщение: ")
+    message = input("Введите сообщение: ")
 
-    return sender_number, kecipient_number, massage
+    return sender_number, recipient_number, message
 
 def creating_mailing() -> int:
     """
     Создает рассылку.
     """
-    sender_number, kecipient_number, massage = read_data_mail()
+    sender_number, recipient_number, message = read_data_mail()
 
-    if check_data_mail(sender_number, kecipient_number, massage) == 0:
+    if check_data_mail(sender_number, recipient_number, message) == 0:
         return 0
 
-    if(ver.login_verification() == 0):
-        sys.exit() 
-
-    dict_data = {"sender_number":sender_number, "kecipient_number": kecipient_number, "massage":massage}
+    dict_data = {"sender":sender_number, "recipient": recipient_number, "message":message}
     request = Mailing_request(dict_data)
-    request.make_request()
     
-    print("Сообщение создано.")
+    response = request.make_request()
+    print(f"{response.body_response} {response.code_response}")        
+
     
 if __name__ == "__main__":
-    result_login: int = ver.login_verification()
-    if(result_login == 0):
+    if ver.login_verification() == 0:
         sys.exit() 
-    
+
     menu_operation()
     
     

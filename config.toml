@@ -4,7 +4,7 @@ title = "Configuration"
 
 [server]
 host =  "localhost"
-port = "4010"
+port = 4010
 
 [requests_path]
 post = "/send_sms"
