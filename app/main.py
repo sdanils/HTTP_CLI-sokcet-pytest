@@ -87,8 +87,11 @@ def creating_mailing() -> int:
     request = Mailing_request(dict_data)
     
     response = request.make_request()
-    print(f"{response.body_response} {response.code_response}")        
-
+    if not response:
+        return 0
+    
+    print(f"Результат: Код запроса - {response.code_response}, Информация - {response.body_response}\n")  
+    return 1      
     
 if __name__ == "__main__":
     if ver.login_verification() == 0:
