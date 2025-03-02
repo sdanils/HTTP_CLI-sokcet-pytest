@@ -51,6 +51,7 @@ def read_number(role: str) -> str:
             break
         else:
             print("Некорректный номер.")
+            return "-" #Для тестов
     
     number = conversion_number(number)
 

@@ -1,4 +1,4 @@
-import get_config as gc
+import app.get_config as gc
 import hashlib
 from typing import Any
 
