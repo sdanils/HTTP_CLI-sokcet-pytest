@@ -1,0 +1,23 @@
+[
+  "test/tests_.py::test_constructor_request",
+  "test/tests_.py::test_read_number[user_inputs0--]",
+  "test/tests_.py::test_read_number[user_inputs1--]",
+  "test/tests_.py::test_read_number[user_inputs10--]",
+  "test/tests_.py::test_read_number[user_inputs11--]",
+  "test/tests_.py::test_read_number[user_inputs12--]",
+  "test/tests_.py::test_read_number[user_inputs13-+79091238989]",
+  "test/tests_.py::test_read_number[user_inputs14-+79091238989]",
+  "test/tests_.py::test_read_number[user_inputs15-+79091238989]",
+  "test/tests_.py::test_read_number[user_inputs16-+79091238989]",
+  "test/tests_.py::test_read_number[user_inputs17-+79091238989]",
+  "test/tests_.py::test_read_number[user_inputs18-+79091238989]",
+  "test/tests_.py::test_read_number[user_inputs2--]",
+  "test/tests_.py::test_read_number[user_inputs3--]",
+  "test/tests_.py::test_read_number[user_inputs4--]",
+  "test/tests_.py::test_read_number[user_inputs5--]",
+  "test/tests_.py::test_read_number[user_inputs6--]",
+  "test/tests_.py::test_read_number[user_inputs7--]",
+  "test/tests_.py::test_read_number[user_inputs8--]",
+  "test/tests_.py::test_read_number[user_inputs9--]",
+  "test/tests_.py::test_to_bytes"
+]

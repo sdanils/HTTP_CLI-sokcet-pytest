@@ -1,6 +1,8 @@
 import pytest
 import sys
 import os
+import base64
+from json import dumps
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 module_dir = os.path.join(current_dir, '..', 'app')
@@ -10,10 +12,12 @@ import Requests.mailing_request as mr
 import get_config as gc
 from main import read_number 
 
-def test_constructor_request():
-    data = {"sender_number": "9009001221", "recipient_number": "9009001222", "massage": "Привет, ---!"}
-    config = gc.get_config()
+def get_data_req() -> dict:
+    return {"sender_number": "9009001221", "recipient_number": "9009001222", "massage": "Привет, ---!"}
 
+def test_constructor_request():
+    data = get_data_req()
+    config = gc.get_config()
     new_request = mr.Mailing_request(data)
 
     assert new_request.json_data == data
@@ -59,6 +63,33 @@ def test_read_number(mocked_input, user_inputs, expected_result):
     """Тестирует my_function с разными входами."""
     mocked_input.values = user_inputs
     assert read_number("Test") == expected_result
+
+def test_to_bytes():
+    data = get_data_req()
+    new_request = mr.Mailing_request(data)
+
+    bytes_obj: bytes = new_request.to_bytes()
+
+    config = gc.get_config()
+    auth_bytes = f"{config['user']['name']}:{config['user']['password']}".encode('utf-8')
+    auth_base64 = base64.b64encode(auth_bytes).decode('utf-8')
+    str_data = dumps(data)
+    encoded_data = str_data.encode('utf-8')
+
+    request_line = (f"POST {config['requests_path']['post']} HTTP/1.1\r\n" + 
+        f"Host: {config['server']['host']}\r\n" + 
+        f"Authorization: Basic {auth_base64}\r\n" +
+        "Content-Type: application/json\r\n" +
+        f"Content-Length: {len(encoded_data)}\r\n" + 
+        "Connection: close\r\n" +  
+        "\r\n"  
+    )
+    http_request = request_line.encode('utf-8') + encoded_data
+
+    assert bytes_obj == http_request
+
+
+    
 
 
 

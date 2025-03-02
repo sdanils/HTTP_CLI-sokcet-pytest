@@ -1,6 +1,7 @@
-import app.get_config as gc
+import get_config as gc
 import hashlib
 from typing import Any
+import os
 
 
 def get_md5_hash(input_string: str) -> str:
@@ -20,6 +21,7 @@ def login_verification() -> int:
     config: dict[str, Any] = gc.get_config()
 
     password_str: str = input("Введите пароль: ")
+    os.system('cls')
     hash_password: str = get_md5_hash(password_str)
     
     if(config["user"]["password"] != hash_password):

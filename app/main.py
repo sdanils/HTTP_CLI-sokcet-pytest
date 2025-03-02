@@ -11,7 +11,7 @@ def menu_operation() -> int:
     """
     message_error: str = "Неверный формат ввода.\n"
     while(True):
-        print("Для введите номер пункта.\n1.Создать рассылку.\n2.Выйти.")
+        print("Введите номер пункта.\n1.Создать рассылку.\n2.Выйти.")
         client_chose: str = input()
         try:
             chose = int(client_chose)
@@ -64,13 +64,13 @@ def check_data_mail(sender_number: str, kecipient_number: str, massage: str ) ->
     else:
         return 1
 
-def read_data_mail() -> str:
+def read_data_mail() -> list[str]:
     sender_number = read_number("Отправителя")
     if(sender_number == "-"):
-        return 
+        return '','',''
     recipient_number = read_number("Получателя")
     if(recipient_number == "-"):
-        return 
+        return '','',''
     message = input("Введите сообщение: ")
 
     return sender_number, recipient_number, message
@@ -81,7 +81,7 @@ def creating_mailing() -> int:
     """
     sender_number, recipient_number, message = read_data_mail()
 
-    if check_data_mail(sender_number, recipient_number, message) == 0:
+    if sender_number == '' or check_data_mail(sender_number, recipient_number, message) == 0:
         return 0
 
     dict_data = {"sender":sender_number, "recipient": recipient_number, "message":message}
