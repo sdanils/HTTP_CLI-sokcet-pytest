@@ -4,6 +4,7 @@ import re
 import verification as ver
 from Requests.mailing_request import Mailing_request
 from Requests.mailing_response import Mailing_response
+from log.logging import create_log
 
 def menu_operation() -> int:
     """
@@ -51,7 +52,7 @@ def read_number(role: str) -> str:
             break
         else:
             print("Некорректный номер.")
-            return "-" #Для тестов
+            #return "-" #Для тестов
     
     number = conversion_number(number)
 
@@ -87,6 +88,7 @@ def creating_mailing() -> int:
     dict_data = {"sender":sender_number, "recipient": recipient_number, "message":message}
     request = Mailing_request(dict_data)
     
+    create_log("create request", "creating_mailing", "Creating a mailing list")
     response = request.make_request()
     if not response:
         return 0

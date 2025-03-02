@@ -1,0 +1,7 @@
+date || procces || module || comment || code request
+2025-03-02 23:36:04 || verification || login_verification || Entrance: Danil || 0
+2025-03-02 23:36:32 || create request || creating_mailing || Creating a mailing list || 0
+2025-03-02 23:36:32 || Send data on server || Mailing_request.make_request || Successful send data on server || 0
+2025-03-02 23:36:32 || Accept data from server || Mailing_request.read_response || Successful accept of data from the server. || 200
+2025-03-02 23:37:06 || create request || creating_mailing || Creating a mailing list || 0
+2025-03-02 23:37:08 || Error socket: [WinError 10061] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение || Mailing_request.make_request || Socket error when sending data || 0

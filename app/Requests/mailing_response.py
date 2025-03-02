@@ -1,5 +1,6 @@
 from json import dumps
 from Requests.func_convert import Func_convert
+from log.logging import create_log
 
 class Mailing_response:
     def __init__(self, binary_data: bytes, code_response_: str, body_response_: dict, date_response_: str, status_response_: str):
@@ -35,5 +36,6 @@ class Mailing_response:
         code_response = headers[1]
         status_response = headers[2]
 
+        create_log("Accept data from server", "Mailing_request.read_response", "Successful accept of data from the server.", code_response = code_response)
         new_response = Mailing_response(binary_data, code_response, body, date_response, status_response)
         return new_response

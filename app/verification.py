@@ -2,7 +2,7 @@ import get_config as gc
 import hashlib
 from typing import Any
 import os
-
+from log.logging import create_log
 
 def get_md5_hash(input_string: str) -> str:
     """
@@ -26,6 +26,8 @@ def login_verification() -> int:
     
     if(config["user"]["password"] != hash_password):
         print("Нет доступа.")
+        create_log("verification", "login_verification", "Login attempt (Invalid password)")
         return 0
     else:
+        create_log("verification", "login_verification", f"Entrance: {config['user']['name']}")
         return 1
