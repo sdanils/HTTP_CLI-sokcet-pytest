@@ -7,7 +7,6 @@ from number_functions import read_number
 
 @pytest.fixture
 def mocked_input(monkeypatch):
-    """Фикстура для перехвата input."""
     def fake_input(prompt):
         return fake_input.values.pop(0)
     fake_input.values = []
@@ -40,7 +39,6 @@ def mocked_input(monkeypatch):
 )
     
 def test_read_number(mocked_input, user_inputs, expected_result):
-    """Тестирует my_function с разными входами."""
     mocked_input.values = user_inputs
     assert read_number("Test") == expected_result
 
