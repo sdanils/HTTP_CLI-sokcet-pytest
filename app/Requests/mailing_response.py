@@ -1,4 +1,4 @@
-from json import dumps
+import json 
 from Requests.func_convert import Func_convert
 import log.logging as logging
 import re
@@ -13,9 +13,9 @@ class Mailing_response:
        
     def to_bytes(self) -> bytes:
         """
-        Форматирует обьект HTTP ответа в строку байт.
+        Formats the HTTP response object into a string of bytes.
         """
-        str_data = dumps(self.body_response)
+        str_data = json.dumps(self.body_response)
         encoded_data = str_data.encode('utf-8')
 
         response_line = (f"HTTP/1.1 {self.code_response} {self.status_response}\r\n" + 
@@ -32,7 +32,7 @@ class Mailing_response:
     @staticmethod  
     def search_info(headers: str) -> str:
         """
-        Достаёт из строки ответа сервера информацию.
+        Retrieves information from the server response string.
         """
         headers = re.split(r"[ \r\n]", headers)
         code_response = headers[1]
@@ -48,13 +48,13 @@ class Mailing_response:
     @staticmethod        
     def from_bytes(binary_data: bytes) -> 'Mailing_response':
         """
-        Форматирует строку байт в обьект класс. Обратная операция к to_bytes.
+        Formats a string of bytes into a class object. The reverse operation to to_bytes.
         """
         dict_data: dict = Func_convert.from_bytes_data(binary_data)
         headers, body = dict_data.values() 
         code_response, status_response, date_response = Mailing_response.search_info(headers)
 
-        logging.create_error_log(body, status_response, code_response, date_response)
+        logging.create_response_log(body, code_response, date_response)
 
         new_response = Mailing_response(binary_data, code_response, body, date_response, status_response)
         return new_response

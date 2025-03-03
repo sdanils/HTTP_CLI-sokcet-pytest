@@ -1,4 +1,4 @@
-from json import dumps
+import json 
 import get_config as gc
 import socket
 import base64
@@ -20,11 +20,11 @@ class Mailing_request:
     
     def to_bytes(self) -> bytes:
         """
-        Форматирует обьект HTTP запроса в строку байт.
+        Formats the HTTP request object into a string of bytes.
         """
         auth_bytes = self.auth_token.encode('utf-8')
         auth_base64 = base64.b64encode(auth_bytes).decode('utf-8')
-        str_data = dumps(self.json_data)
+        str_data = json.dumps(self.json_data)
         encoded_data = str_data.encode('utf-8')
 
         request_line = (f"POST {self.path} HTTP/1.1\r\n" + 
@@ -40,7 +40,7 @@ class Mailing_request:
 
     def read_response(self) -> bytes:
         """
-        Считывает ответ сервера из буфера как поток чанков.
+        Reads the server response from the buffer as a stream of chunks.
         """
         response_bytes = b''
         try:
@@ -56,7 +56,7 @@ class Mailing_request:
 
     def make_request(self) -> Mailing_response:
         """
-        Создаёт HTTP запрос.
+        Creates an HTTP request.
         """        
         http_request = self.to_bytes()
         try:
@@ -78,9 +78,19 @@ class Mailing_request:
         return response
     
     @staticmethod
+    def check_path(path: str) -> bool:
+        """ Verifies that the request matches the configuration """
+        config = gc.get_config()
+        if config['requests_path']['post'] != path:
+            print("Неизвестый запрос")
+            return False
+        
+        return True
+    
+    @staticmethod
     def from_bytes(binary_data: bytes) -> 'Mailing_request':
         """
-        Форматирует строку байт в обьект класс. Обратная операция к to_bytes.
+        Formats a string of bytes into a class object. The reverse operation to to_bytes.
         """
         dict_data: dict = Func_convert.from_bytes_data(binary_data)
         headers, body = dict_data.values() 
@@ -88,9 +98,7 @@ class Mailing_request:
         headers = headers.split(" ")    
         path = headers[1]
 
-        config = gc.get_config()
-        if config['requests_path']['post'] != path:
-            print("Неизвестый запрос")
+        if Mailing_request.check_path(path) == 0:
             return None
 
         new_request = Mailing_request(body)

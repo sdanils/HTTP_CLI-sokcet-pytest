@@ -3,7 +3,6 @@ from add_path import add_path_f
 add_path_f()
 
 import Requests.mailing_response as mr
-import get_config as gc
 
 def test_to_bytes_response():
     response_str = 'HTTP/1.1 200 OK\r\nDate: Mon, 03 Mar 2025 07:26:15 GMT\r\nServer: ServerE\r\nContent-type: application/json\r\nContent-Length: 45\r\nConnection: close\r\n\r\n{"status": "success", "message_id": "123456"}'

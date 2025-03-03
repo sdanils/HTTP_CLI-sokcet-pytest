@@ -2,11 +2,11 @@ import get_config as gc
 import hashlib
 from typing import Any
 import os
-from log.logging import create_log
+import log.logging as logging
 
 def get_md5_hash(input_string: str) -> str:
     """
-    Вычисляет MD5 хеш для входной строки.
+    Calculates the MD5 hash for the input string.
     """
     encoded_string: bytes = input_string.encode('utf-8')
     md5_hash = hashlib.md5()
@@ -16,7 +16,7 @@ def get_md5_hash(input_string: str) -> str:
 
 def login_verification() -> int:
     """
-    Проверяет пользователя при запуске.
+    Checks the user at startup.
     """
     config: dict[str, Any] = gc.get_config()
 
@@ -26,8 +26,8 @@ def login_verification() -> int:
     
     if(config["user"]["password"] != hash_password):
         print("Нет доступа.")
-        create_log("verification", "login_verification", "Login attempt (Invalid password)")
+        logging.create_log("verification", "login_verification", "Login attempt (Invalid password)")
         return 0
     else:
-        create_log("verification", "login_verification", f"Entrance: {config['user']['name']}")
+        logging.create_log("verification", "login_verification", f"Entrance: {config['user']['name']}")
         return 1

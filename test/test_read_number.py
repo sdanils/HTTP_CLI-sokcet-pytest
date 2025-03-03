@@ -1,11 +1,9 @@
 import pytest
-import sys
-import os
 
 from add_path import add_path_f
 add_path_f()
 
-from main import read_number 
+from number_functions import read_number 
 
 @pytest.fixture
 def mocked_input(monkeypatch):
