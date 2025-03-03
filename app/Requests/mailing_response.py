@@ -12,6 +12,9 @@ class Mailing_response:
         self.status_response: str = status_response_
        
     def to_bytes(self) -> bytes:
+        """
+        Форматирует обьект HTTP ответа в строку байт.
+        """
         str_data = dumps(self.body_response)
         encoded_data = str_data.encode('utf-8')
 
@@ -24,11 +27,13 @@ class Mailing_response:
             "\r\n"  
         )
         http_response = response_line.encode('utf-8') + encoded_data
-
         return http_response
 
     @staticmethod  
     def search_info(headers: str) -> str:
+        """
+        Достаёт из строки ответа сервера информацию.
+        """
         headers = re.split(r"[ \r\n]", headers)
         code_response = headers[1]
         status_response = headers[2]
@@ -42,6 +47,9 @@ class Mailing_response:
 
     @staticmethod        
     def from_bytes(binary_data: bytes) -> 'Mailing_response':
+        """
+        Форматирует строку байт в обьект класс. Обратная операция к to_bytes.
+        """
         dict_data: dict = Func_convert.from_bytes_data(binary_data)
         headers, body = dict_data.values() 
         code_response, status_response, date_response = Mailing_response.search_info(headers)

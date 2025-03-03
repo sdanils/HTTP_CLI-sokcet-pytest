@@ -8,7 +8,7 @@ from log.logging import create_log
 
 def menu_operation() -> int:
     """
-    Выводит меню выбора дейсвтий.
+    Выводит меню выбора действий.
     """
     message_error: str = "Неверный формат ввода.\n"
     while(True):
@@ -27,6 +27,7 @@ def menu_operation() -> int:
             print(message_error)
 
 def conversion_number(number: str) -> str:
+    """Форматирует номер"""
     if(len(number) == 10):
         number = "+7" + number
     elif(len(number) == 11):
@@ -52,10 +53,9 @@ def read_number(role: str) -> str:
             break
         else:
             print("Некорректный номер.")
-            return "-" #Для тестов
+            return "-" #Для тестов.
     
     number = conversion_number(number)
-
     return number
 
 def check_data_mail(sender_number: str, kecipient_number: str, massage: str ) -> int:
@@ -81,7 +81,6 @@ def creating_mailing() -> int:
     Создает рассылку.
     """
     sender_number, recipient_number, message = read_data_mail()
-
     if sender_number == '' or check_data_mail(sender_number, recipient_number, message) == 0:
         return 0
 
@@ -99,7 +98,7 @@ def creating_mailing() -> int:
 if __name__ == "__main__":
     if ver.login_verification() == 0:
         sys.exit() 
-
+        
     menu_operation()
     
     

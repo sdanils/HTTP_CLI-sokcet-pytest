@@ -19,6 +19,9 @@ class Mailing_request:
         self.socket: socket.socket = None
     
     def to_bytes(self) -> bytes:
+        """
+        Форматирует обьект HTTP запроса в строку байт.
+        """
         auth_bytes = self.auth_token.encode('utf-8')
         auth_base64 = base64.b64encode(auth_bytes).decode('utf-8')
         str_data = dumps(self.json_data)
@@ -33,12 +36,13 @@ class Mailing_request:
             "\r\n"  
         )
         http_request = request_line.encode('utf-8') + encoded_data
-
         return http_request
 
     def read_response(self) -> bytes:
+        """
+        Считывает ответ сервера из буфера как поток чанков.
+        """
         response_bytes = b''
-
         try:
             while True:
                 chunk = self.socket.recv(256)
@@ -50,9 +54,11 @@ class Mailing_request:
         
         return response_bytes
 
-    def make_request(self) -> Mailing_response:        
+    def make_request(self) -> Mailing_response:
+        """
+        Создаёт HTTP запрос.
+        """        
         http_request = self.to_bytes()
-
         try:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.socket.connect((self.host, self.port))
@@ -73,6 +79,9 @@ class Mailing_request:
     
     @staticmethod
     def from_bytes(binary_data: bytes) -> 'Mailing_request':
+        """
+        Форматирует строку байт в обьект класс. Обратная операция к to_bytes.
+        """
         dict_data: dict = Func_convert.from_bytes_data(binary_data)
         headers, body = dict_data.values() 
 
