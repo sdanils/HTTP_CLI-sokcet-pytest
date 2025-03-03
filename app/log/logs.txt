@@ -32,3 +32,18 @@ Tue, 04 Mar 2025 00:01:31 GMT || Send data on server || Mailing_request.make_req
 Mon, 03 Mar 2025 21:01:31 GMT || Created mailing || Mailing_response.from_bytes || succsesful creating || 200 || 123456
 Tue, 04 Mar 2025 00:01:31 GMT || Send data on server || Mailing_request.make_request || Successful send data on server || 0
 Mon, 03 Mar 2025 21:01:31 GMT || Created mailing || Mailing_response.from_bytes || server response error. Invalid credentials || 401
+Tue, 04 Mar 2025 00:03:55 GMT || verification || login_verification || Entrance: Danil || 0
+Tue, 04 Mar 2025 00:04:09 GMT || create request || creating_mailing || Creating a mailing list || 0
+Tue, 04 Mar 2025 00:04:09 GMT || Send data on server || Mailing_request.make_request || Successful send data on server || 0
+Mon, 03 Mar 2025 21:04:09 GMT || Created mailing || Mailing_response.from_bytes || succsesful creating || 200 || 123456
+Mon, 03 Mar 2025 07:26:15 GMT || Created mailing || Mailing_response.from_bytes || succsesful creating || 200 || 123456
+Tue, 04 Mar 2025 00:04:25 GMT || Send data on server || Mailing_request.make_request || Successful send data on server || 0
+Mon, 03 Mar 2025 21:04:25 GMT || Created mailing || Mailing_response.from_bytes || succsesful creating || 200 || 123456
+Tue, 04 Mar 2025 00:04:25 GMT || Send data on server || Mailing_request.make_request || Successful send data on server || 0
+Mon, 03 Mar 2025 21:04:25 GMT || Created mailing || Mailing_response.from_bytes || succsesful creating || 200 || 123456
+Tue, 04 Mar 2025 00:04:25 GMT || Send data on server || Mailing_request.make_request || Successful send data on server || 0
+Mon, 03 Mar 2025 21:04:25 GMT || Created mailing || Mailing_response.from_bytes || succsesful creating || 200 || 123456
+Tue, 04 Mar 2025 00:04:25 GMT || Send data on server || Mailing_request.make_request || Successful send data on server || 0
+Mon, 03 Mar 2025 21:04:25 GMT || Created mailing || Mailing_response.from_bytes || succsesful creating || 200 || 123456
+Tue, 04 Mar 2025 00:04:25 GMT || Send data on server || Mailing_request.make_request || Successful send data on server || 0
+Mon, 03 Mar 2025 21:04:25 GMT || Created mailing || Mailing_response.from_bytes || server response error. Invalid credentials || 401
