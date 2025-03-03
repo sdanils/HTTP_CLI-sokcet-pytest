@@ -4,7 +4,7 @@ import socket
 import base64
 from Requests.mailing_response import Mailing_response
 from Requests.func_convert import Func_convert
-from log.logging import create_log
+import log.logging as logging
 
 class Mailing_request:
     def __init__(self, data: dict):
@@ -46,30 +46,28 @@ class Mailing_request:
                     break
                 response_bytes += chunk
         except socket.error as e:
-            create_log("Accept data from server", "Mailing_request.read_response", "Error accept data from the server.")
+            logging.create_log("Accept data from server", "Mailing_request.read_response", "Error accept data from the server.")
         
         return response_bytes
 
     def make_request(self) -> Mailing_response:        
         http_request = self.to_bytes()
-        response_bytes = None
 
         try:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.socket.connect((self.host, self.port))
             self.socket.sendall(http_request)
-            create_log("Send data on server", "Mailing_request.make_request", "Successful send data on server")
+            logging.create_log("Send data on server", "Mailing_request.make_request", "Successful send data on server")
 
             response_bytes = self.read_response()
         except socket.error as e:
             print(f"Ошибка отправки.")
-            create_log(f"Error socket: {e}", "Mailing_request.make_request", "Socket error when sending data")
+            logging.create_log(f"Error socket: {e}", "Mailing_request.make_request", "Socket error when sending data")
         finally:
             self.socket.close()
 
         if not response_bytes:
             return None
-
         response = Mailing_response.from_bytes(response_bytes)
         return response
     

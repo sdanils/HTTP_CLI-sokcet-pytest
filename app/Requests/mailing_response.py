@@ -1,6 +1,6 @@
 from json import dumps
 from Requests.func_convert import Func_convert
-from log.logging import create_log
+import log.logging as logging
 import re
 
 class Mailing_response:
@@ -27,11 +27,8 @@ class Mailing_response:
 
         return http_response
 
-    @staticmethod        
-    def from_bytes(binary_data: bytes) -> 'Mailing_response':
-        dict_data: dict = Func_convert.from_bytes_data(binary_data)
-        headers, body = dict_data.values() 
-
+    @staticmethod  
+    def search_info(headers: str) -> str:
         headers = re.split(r"[ \r\n]", headers)
         code_response = headers[1]
         status_response = headers[2]
@@ -40,7 +37,16 @@ class Mailing_response:
             if el_headers == "Date:":
                 date_response = " ".join(headers[i+1:i+7])
                 break
+        
+        return code_response, status_response, date_response
 
-        create_log("Accept data from server", "Mailing_request.read_response", "Successful accept of data from the server.", code_response = code_response)
+    @staticmethod        
+    def from_bytes(binary_data: bytes) -> 'Mailing_response':
+        dict_data: dict = Func_convert.from_bytes_data(binary_data)
+        headers, body = dict_data.values() 
+        code_response, status_response, date_response = Mailing_response.search_info(headers)
+
+        logging.create_error_log(body, status_response, code_response, date_response)
+
         new_response = Mailing_response(binary_data, code_response, body, date_response, status_response)
         return new_response
