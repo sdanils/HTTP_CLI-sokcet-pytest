@@ -2,7 +2,7 @@ import datetime as dt
 
 def add_log(log: str) -> int:
     try:
-        with open("logs.txt", "a") as file:
+        with open("app\log\logs.txt", "a") as file:
             file.write(log)
     except Exception as e:
         print(f"Произошла ошибка при записи лога: {e}")

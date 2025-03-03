@@ -1,6 +1,7 @@
 from json import dumps
 from Requests.func_convert import Func_convert
 from log.logging import create_log
+import re
 
 class Mailing_response:
     def __init__(self, binary_data: bytes, code_response_: str, body_response_: dict, date_response_: str, status_response_: str):
@@ -17,7 +18,7 @@ class Mailing_response:
         response_line = (f"HTTP/1.1 {self.code_response} {self.status_response}\r\n" + 
             f"Date: {self.date_response}\r\n" + 
             f"Server: ServerE\r\n" +
-            "Content-Type: application/json\r\n" +
+            "Content-type: application/json\r\n" +
             f"Content-Length: {len(encoded_data)}\r\n" + 
             "Connection: close\r\n" +  
             "\r\n"  
@@ -31,10 +32,14 @@ class Mailing_response:
         dict_data: dict = Func_convert.from_bytes_data(binary_data)
         headers, body = dict_data.values() 
 
-        headers = headers.split(" ")
-        date_response = "".join(headers[4:10])
+        headers = re.split(r"[ \r\n]", headers)
         code_response = headers[1]
         status_response = headers[2]
+
+        for i, el_headers in enumerate(headers):
+            if el_headers == "Date:":
+                date_response = " ".join(headers[i+1:i+7])
+                break
 
         create_log("Accept data from server", "Mailing_request.read_response", "Successful accept of data from the server.", code_response = code_response)
         new_response = Mailing_response(binary_data, code_response, body, date_response, status_response)

@@ -82,7 +82,7 @@ class Mailing_request:
         path = headers[1]
 
         config = gc.get_config()
-        if config["request_path"]["post"] != path:
+        if config['requests_path']['post'] != path:
             print("Неизвестый запрос")
             return None
 
